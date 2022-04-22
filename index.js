@@ -53,27 +53,39 @@ app.post("/register", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  console.log(email);
   bcrypt.hash(password, saltRounds, (err, hash) => {
     if (err) {
       res.send({ err: err });
     }
 
     db.query(
-      "SELECT username FROM AccountsSystem WHERE username = '" + username + "'",
+      "SELECT username FROM AccountsSystem WHERE email = '" + email + "'",
       function (err, result, field) {
         if (result.length === 0) {
-          console.log(email);
           db.query(
-            "INSERT INTO AccountsSystem (username, email, password, role) VALUES (?, ?, ?, 'user')",
-            [username, email, hash],
-            (err, result) => {
-              console.log(err);
+            "SELECT username FROM AccountsSystem WHERE username = '" +
+              username +
+              "'",
+            function (err, result, field) {
+              if (result.length === 0) {
+                db.query(
+                  "INSERT INTO AccountsSystem (username, email, password, role) VALUES (?, ?, ?, 'user')",
+                  [username, email, hash],
+                  (err, result) => {
+                    console.log(err);
+                  }
+                );
+              } else {
+                res.send({
+                  message: "Użytkownik o podanym loginie już istnieje",
+                });
+              }
             }
           );
         } else {
-          console.log("Użytkownik już istnieje");
-          res.send({ message: "Użytkownik o podanych danych już istnieje" });
+          res.send({
+            message: "Użytkownik o podanym emailu już istnieje",
+          });
         }
       }
     );

@@ -72,7 +72,12 @@ app.post("/register", (req, res) => {
                   "INSERT INTO AccountsSystem (username, email, password, role) VALUES (?, ?, ?, 'user')",
                   [username, email, hash],
                   (err, result) => {
-                    console.log(err);
+                    if (err) {
+                      console.log(err);
+                    } else {
+                      res.send(result);
+                      console.log(result);
+                    }
                   }
                 );
               } else {

@@ -59,7 +59,7 @@ app.post("/register", (req, res) => {
     }
 
     db.query(
-      "SELECT username FROM AccountsSystem WHERE email = '" + email + "'",
+      "SELECT email FROM AccountsSystem WHERE email = '" + email + "'",
       function (err, result, field) {
         if (result.length === 0) {
           db.query(
@@ -93,19 +93,19 @@ app.post("/register", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  if (req.session.user) {
-    res.send({ loggedIn: true, user: req.session.user });
+  if (req.session.email) {
+    res.send({ loggedIn: true, email: req.session.email });
   } else {
     res.send({ loggedIn: false });
   }
 });
 
 app.post("/login", (req, res) => {
-  const username = req.body.username;
+  const email = req.body.email;
   const password = req.body.password;
   db.query(
-    "SELECT * FROM AccountsSystem WHERE username = ?;",
-    [username],
+    "SELECT * FROM AccountsSystem WHERE email = ?;",
+    [email],
     (err, result) => {
       if (err) {
         res.send({ err: err });
@@ -113,15 +113,15 @@ app.post("/login", (req, res) => {
       if (result.length > 0) {
         bcrypt.compare(password, result[0].password, (error, response) => {
           if (response) {
-            req.session.user = result;
-            console.log(req.session.user);
+            req.session.email = result;
+            console.log(req.session.email);
             res.send(result);
           } else {
             res.send({ message: "Nieprawidłowy adres e‑mail lub hasło" });
           }
         });
       } else {
-        res.send({ message: "Użytkownik nie istnieje" });
+        res.send({ message: "Nieprawidłowy adres e‑mail lub hasło" });
       }
     }
   );

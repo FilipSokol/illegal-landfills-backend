@@ -9,7 +9,10 @@ router.get("/", userController.getAllUsers);
 // get user by id
 router.get("/:userid", userController.getUserById);
 
+// login
+router.post("/login", userController.loginUser);
+
 // register user
-router.post("/register", userController.registerNewUser);
+router.post("/register", userController.registerUser);
 
 module.exports = router;

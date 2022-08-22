@@ -64,63 +64,71 @@ User.getUserById = (userid, result) => {
   });
 };
 
-// register user
-User.registerUser = (userReqData, result) => {
-  dbConn.query("INSERT INTO users SET ? ", userReqData, (err, res) => {
-    if (err) {
-      console.log("Error while inserting data");
-      result(null, err);
+// login
+
+User.loginUser = (userReqData, result) => {
+  const email = userReqData.email;
+  const password = userReqData.password;
+
+  dbConn.query("SELECT * FROM users WHERE email = ?;", [email], (err, res) => {
+    if (res.length != 0) {
+      bcrypt.compare(password, res[0].password, (error, response) => {
+        if (response) {
+          // req.session.email = res;
+          // console.log(req.session.email);
+          result(null, res);
+        } else {
+          result(null, { message: "Nieprawidłowy adres e‑mail lub hasło" });
+        }
+      });
     } else {
-      console.log("Employee created successfully");
-      result(null, res);
+      result(null, { message: "Nieprawidłowy adres e‑mail lub hasło" });
     }
   });
-  //   app.post("/register", (req, res) => {
-  //     const username = req.body.username;
-  //     const email = req.body.email;
-  //     const password = req.body.password;
-  //     bcrypt.hash(password, saltRounds, (err, hash) => {
-  //       if (err) {
-  //         res.send({ err: err });
-  //       }
-  //       db.query(
-  //         "SELECT email FROM AccountsSystem WHERE email = '" + email + "'",
-  //         function (err, result, field) {
-  //           if (result.length === 0) {
-  //             db.query(
-  //               "SELECT username FROM AccountsSystem WHERE username = '" +
-  //                 username +
-  //                 "'",
-  //               function (err, result, field) {
-  //                 if (result.length === 0) {
-  //                   db.query(
-  //                     "INSERT INTO AccountsSystem (username, email, password, role) VALUES (?, ?, ?, 'user')",
-  //                     [username, email, hash],
-  //                     (err, result) => {
-  //                       if (err) {
-  //                         console.log(err);
-  //                       } else {
-  //                         res.send(result);
-  //                         console.log(result);
-  //                       }
-  //                     }
-  //                   );
-  //                 } else {
-  //                   res.send({
-  //                     message: "Użytkownik o podanym loginie już istnieje",
-  //                   });
-  //                 }
-  //               }
-  //             );
-  //           } else {
-  //             res.send({
-  //               message: "Użytkownik o podanym emailu już istnieje",
-  //             });
-  //           }
-  //         }
-  //       );
-  //     });
-  //   });
+};
+
+// register user
+User.registerUser = (userReqData, result) => {
+  const username = userReqData.username;
+  const email = userReqData.email;
+  const password = userReqData.password;
+
+  bcrypt.hash(password, saltRounds, (error, hash) => {
+    dbConn.query(
+      "SELECT email FROM users WHERE email = '" + email + "'",
+      (error, res) => {
+        if (res.length === 0) {
+          dbConn.query(
+            "SELECT username FROM users WHERE username = '" + username + "'",
+            (error, res) => {
+              if (res.length === 0) {
+                dbConn.query(
+                  "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, 'user')",
+                  [username, email, hash],
+                  (err, res) => {
+                    if (err) {
+                      console.log("Error while inserting data");
+                      result(null, err);
+                    } else {
+                      result(null, res);
+                    }
+                  }
+                );
+              } else {
+                result(null, {
+                  message: "Użytkownik o podanym loginie już istnieje",
+                });
+              }
+            }
+          );
+        } else {
+          result(null, {
+            message: "Użytkownik o podanym emailu już istnieje",
+          });
+        }
+      }
+    );
+  });
 };
 
 module.exports = User;

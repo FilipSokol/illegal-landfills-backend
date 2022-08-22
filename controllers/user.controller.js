@@ -2,35 +2,48 @@ const UserModel = require("../models/user.model");
 
 // get all user list
 exports.getAllUsers = (req, res) => {
-  UserModel.getAllUsers((err, users) => {
+  UserModel.getAllUsers((error, users) => {
     try {
       res.send(users);
-    } catch (error) {
-      res.send(error);
+    } catch (err) {
+      res.send(err);
     }
   });
 };
 
 // get user by id
 exports.getUserById = (req, res) => {
-  UserModel.getUserById(req.params.userid, (err, user) => {
+  UserModel.getUserById(req.params.userid, (error, user) => {
     try {
       res.send(user);
-    } catch (error) {
-      res.send(error);
+    } catch (err) {
+      res.send(err);
+    }
+  });
+};
+
+// login user
+exports.loginUser = (req, res) => {
+  const userReqData = new UserModel(req.body);
+
+  UserModel.loginUser(userReqData, (error, message) => {
+    try {
+      res.send(message);
+    } catch (err) {
+      res.send(err);
     }
   });
 };
 
 // register user
-exports.registerNewUser = (req, res) => {
+exports.registerUser = (req, res) => {
   const userReqData = new UserModel(req.body);
-  console.log("userReqData", userReqData);
-  UserModel.registerUser(userReqData, (err, user) => {
-    if (err) res.send(err);
-    res.json({
-      message: "Employee Created Successfully",
-      data: user.userid,
-    });
+  console.log(req.body);
+  UserModel.registerUser(userReqData, (error, message) => {
+    try {
+      res.send(message);
+    } catch (err) {
+      res.send(err);
+    }
   });
 };

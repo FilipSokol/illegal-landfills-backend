@@ -1,38 +1,7 @@
 const dbConn = require("../config/dbConfig");
-
-const express = require("express");
-const mysql = require("mysql");
-const cors = require("cors");
-
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
-const session = require("express-session");
-
+const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-
-// Secret key
-require("dotenv").config();
-const secret = process.env;
-//
-
-const app = express();
-
-app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-app.use(
-  session({
-    key: "userId",
-    secret: secret.SECRET_KEY,
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      httpOnly: false, // potrzebowalem js do tego czy jest ciasteczko, kom. ze stacka (dont let browser javascript access cookie ever)
-      expires: 24 * 60 * 60 * 1000, //WYGASZANIE CIASTECZKA 24h
-    },
-  })
-);
 
 const User = function (user) {
   this.userid = user.userid;
@@ -69,14 +38,21 @@ User.getUserById = (userid, result) => {
 User.loginUser = (userReqData, result) => {
   const email = userReqData.email;
   const password = userReqData.password;
+  console.log(userReqData);
 
   dbConn.query("SELECT * FROM users WHERE email = ?;", [email], (err, res) => {
     if (res.length != 0) {
       bcrypt.compare(password, res[0].password, (error, response) => {
         if (response) {
-          // req.session.email = res;
-          // console.log(req.session.email);
-          result(null, res);
+          const accessToken = jwt.sign(
+            { email: email },
+            process.env.ACCESS_TOKEN_SECRET,
+            {
+              expiresIn: "1m",
+            }
+          );
+
+          result(null, { accessToken });
         } else {
           result(null, { message: "Nieprawidłowy adres e‑mail lub hasło" });
         }
@@ -86,6 +62,8 @@ User.loginUser = (userReqData, result) => {
     }
   });
 };
+
+let refreshTokens = [];
 
 // register user
 User.registerUser = (userReqData, result) => {

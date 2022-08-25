@@ -1,4 +1,10 @@
 const UserModel = require("../models/user.model");
+const express = require("express");
+const dotenv = require("dotenv");
+const jwt = require("jsonwebtoken");
+
+dotenv.config();
+process.env.TOKEN_SECRET;
 
 // get all user list
 exports.getAllUsers = (req, res) => {
@@ -25,7 +31,6 @@ exports.getUserById = (req, res) => {
 // login user
 exports.loginUser = (req, res) => {
   const userReqData = new UserModel(req.body);
-
   UserModel.loginUser(userReqData, (error, message) => {
     try {
       res.send(message);
@@ -46,4 +51,12 @@ exports.registerUser = (req, res) => {
       res.send(err);
     }
   });
+};
+
+// logout User
+exports.logoutUser = (req, res) => {
+  const refreshToken = req.header("x-auth-token");
+
+  refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
+  res.sendStatus(204);
 };

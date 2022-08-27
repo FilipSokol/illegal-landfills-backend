@@ -1,7 +1,6 @@
 const UserModel = require("../models/user.model");
-const express = require("express");
 const dotenv = require("dotenv");
-const jwt = require("jsonwebtoken");
+
 
 dotenv.config();
 process.env.TOKEN_SECRET;

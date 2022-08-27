@@ -19,8 +19,10 @@ app.get("/", (req, res) => {
 });
 
 const userRoutes = require("./routes/user.route");
+const markerRoutes = require("./routes/marker.route");
 
 app.use("/api/", userRoutes);
+app.use("/api/", markerRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

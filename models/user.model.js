@@ -38,17 +38,18 @@ User.getUserById = (userid, result) => {
 User.loginUser = (userReqData, result) => {
   const email = userReqData.email;
   const password = userReqData.password;
-  console.log(userReqData);
 
   dbConn.query("SELECT * FROM users WHERE email = ?;", [email], (err, res) => {
     if (res.length != 0) {
+      const username = res[0].username;
+      const role = res[0].role;
       bcrypt.compare(password, res[0].password, (error, response) => {
         if (response) {
           const accessToken = jwt.sign(
-            { email: email },
+            { email: email, username: username, role: role },
             process.env.ACCESS_TOKEN_SECRET,
             {
-              expiresIn: "1m",
+              expiresIn: "60m",
             }
           );
 

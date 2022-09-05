@@ -23,6 +23,18 @@ exports.getAllMarkers = (req, res) => {
   });
 };
 
+// get all user markers
+exports.getAllUserMarkers = (req, res) => {
+  const markerReqData = new MarkerModel(req.body);
+  MarkerModel.getAllUserMarkers(markerReqData, (error, data) => {
+    try {
+      res.send(data);
+    } catch (err) {
+      res.send(err);
+    }
+  });
+};
+
 // delete marker
 exports.deleteMarker = (req, res) => {
   const markerReqData = new MarkerModel(req.body);
@@ -51,6 +63,18 @@ exports.reportMarker = (req, res) => {
 exports.deleteMarkerReport = (req, res) => {
   const markerReqData = new MarkerModel(req.body);
   MarkerModel.deleteMarkerReport(markerReqData, (error, data) => {
+    try {
+      res.send(data);
+    } catch (err) {
+      res.send(err);
+    }
+  });
+};
+
+// report trash activity
+exports.reportTrashActivity = (req, res) => {
+  const markerReqData = new MarkerModel(req.body);
+  MarkerModel.reportTrashActivity(markerReqData, (error, data) => {
     try {
       res.send(data);
     } catch (err) {

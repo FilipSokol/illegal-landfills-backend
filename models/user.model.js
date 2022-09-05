@@ -22,9 +22,10 @@ User.getAllUsers = (result) => {
   });
 };
 
-// get user by ID
-User.getUserById = (userid, result) => {
-  dbConn.query("SELECT * FROM users WHERE userid=?", userid, (err, res) => {
+// delete user
+User.deleteUser = (userReqData, result) => {
+  const userid = userReqData.userid;
+  dbConn.query("DELETE FROM users WHERE userid = ?", [userid], (err, res) => {
     if (err) {
       result(null, err);
     } else {
@@ -34,7 +35,6 @@ User.getUserById = (userid, result) => {
 };
 
 // login
-
 User.loginUser = (userReqData, result) => {
   const email = userReqData.email;
   const password = userReqData.password;
@@ -43,10 +43,11 @@ User.loginUser = (userReqData, result) => {
     if (res.length != 0) {
       const username = res[0].username;
       const role = res[0].role;
+      const userid = res[0].userid;
       bcrypt.compare(password, res[0].password, (error, response) => {
         if (response) {
           const accessToken = jwt.sign(
-            { email: email, username: username, role: role },
+            { email: email, username: username, role: role, userid: userid },
             process.env.ACCESS_TOKEN_SECRET,
             {
               expiresIn: "60m",
@@ -63,8 +64,6 @@ User.loginUser = (userReqData, result) => {
     }
   });
 };
-
-let refreshTokens = [];
 
 // register user
 User.registerUser = (userReqData, result) => {

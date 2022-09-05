@@ -1,7 +1,6 @@
 const UserModel = require("../models/user.model");
 const dotenv = require("dotenv");
 
-
 dotenv.config();
 process.env.TOKEN_SECRET;
 
@@ -16,11 +15,12 @@ exports.getAllUsers = (req, res) => {
   });
 };
 
-// get user by id
-exports.getUserById = (req, res) => {
-  UserModel.getUserById(req.params.userid, (error, user) => {
+// delete user
+exports.deleteUser = (req, res) => {
+  const userReqData = new UserModel(req.body);
+  UserModel.deleteUser(userReqData, (error, data) => {
     try {
-      res.send(user);
+      res.send(data);
     } catch (err) {
       res.send(err);
     }

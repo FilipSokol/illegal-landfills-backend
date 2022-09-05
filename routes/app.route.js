@@ -7,8 +7,8 @@ const markerController = require("../controllers/marker.controller");
 // get all users
 router.get("/users", userController.getAllUsers);
 
-// // get user by id
-// router.get("/:userid", userController.getUserById);
+// delete user
+router.post("/deleteuser", userController.deleteUser);
 
 // login
 router.post("/login", userController.loginUser);
@@ -22,17 +22,23 @@ router.delete("/logout", userController.logoutUser);
 // get all markers
 router.get("/markers", markerController.getAllMarkers);
 
+// get all user markers
+router.post("/usermarkers", markerController.getAllUserMarkers);
+
 // create marker
 router.post("/createmarker", markerController.createMarker);
 
-// report marker
+// delete marker
 router.post("/deletemarker", markerController.deleteMarker);
 
 // report marker
 router.post("/reportmarker", markerController.reportMarker);
 
-// report marker
+// delete report
 router.post("/deletereport", markerController.deleteMarkerReport);
+
+// report trash activity
+router.post("/reporttrash", markerController.reportTrashActivity);
 
 // get all reported markers
 router.get("/reportedmarkers", markerController.getAllReportedMarkers);

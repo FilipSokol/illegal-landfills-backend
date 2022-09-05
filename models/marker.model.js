@@ -9,6 +9,8 @@ const Marker = function (marker) {
   this.description = marker.description;
   this.status = marker.status;
   this.spam = marker.spam;
+  this.created = marker.created;
+  this.updated = marker.updated;
 };
 
 // get all markers
@@ -20,6 +22,23 @@ Marker.getAllMarkers = (result) => {
       result(null, res);
     }
   });
+};
+
+// get all user markers
+Marker.getAllUserMarkers = (markerReqData, result) => {
+  const userid = markerReqData.userid;
+
+  dbConn.query(
+    "SELECT * FROM markers WHERE userid = ?",
+    [userid],
+    (err, res) => {
+      if (err) {
+        result(null, err);
+      } else {
+        result(null, res);
+      }
+    }
+  );
 };
 
 // create marker
@@ -102,6 +121,24 @@ Marker.getAllReportedMarkers = (result) => {
       result(null, res);
     }
   });
+};
+
+// report trash activity
+Marker.reportTrashActivity = (markerReqData, result) => {
+  const markerid = markerReqData.markerid;
+  const updated = new Date();
+
+  dbConn.query(
+    "UPDATE markers SET updated = ? WHERE markerid = ?",
+    [updated, markerid],
+    (err, res) => {
+      if (err) {
+        result(null, err);
+      } else {
+        result(null, res);
+      }
+    }
+  );
 };
 
 module.exports = Marker;

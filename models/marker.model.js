@@ -141,4 +141,23 @@ Marker.reportTrashActivity = (markerReqData, result) => {
   );
 };
 
+// delete trash activity
+Marker.deleteTrashMarker = (markerReqData, result) => {
+  const markerid = markerReqData.markerid;
+  const deleted = new Date();
+  deleted.setDate(deleted.getDate() + 3);
+
+  dbConn.query(
+    "UPDATE markers SET deleted = ? WHERE markerid = ?",
+    [deleted, markerid],
+    (err, res) => {
+      if (err) {
+        result(null, err);
+      } else {
+        result(null, res);
+      }
+    }
+  );
+};
+
 module.exports = Marker;

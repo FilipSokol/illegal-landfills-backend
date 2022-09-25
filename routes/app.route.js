@@ -37,6 +37,9 @@ router.post("/reportmarker", markerController.reportMarker);
 // delete report
 router.post("/deletereport", markerController.deleteMarkerReport);
 
+// delete reported marker
+router.post("/deletetrashmarker", markerController.deleteTrashMarker);
+
 // report trash activity
 router.post("/reporttrash", markerController.reportTrashActivity);
 

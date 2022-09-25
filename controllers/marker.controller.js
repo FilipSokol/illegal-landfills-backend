@@ -83,6 +83,18 @@ exports.reportTrashActivity = (req, res) => {
   });
 };
 
+// delete trash activity
+exports.deleteTrashMarker = (req, res) => {
+  const markerReqData = new MarkerModel(req.body);
+  MarkerModel.deleteTrashMarker(markerReqData, (error, data) => {
+    try {
+      res.send(data);
+    } catch (err) {
+      res.send(err);
+    }
+  });
+};
+
 // get all markers
 exports.getAllReportedMarkers = (req, res) => {
   MarkerModel.getAllReportedMarkers((error, data) => {

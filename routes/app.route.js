@@ -16,8 +16,8 @@ router.post("/login", userController.loginUser);
 // register user
 router.post("/register", userController.registerUser);
 
-// login
-router.delete("/logout", userController.logoutUser);
+// get users scoreboard
+router.get("/scoreboard", userController.scoreboard);
 
 // get all markers
 router.get("/markers", markerController.getAllMarkers);
@@ -34,16 +34,16 @@ router.post("/deletemarker", markerController.deleteMarker);
 // report marker
 router.post("/reportmarker", markerController.reportMarker);
 
+// get all reported markers
+router.get("/reportedmarkers", markerController.getAllReportedMarkers);
+
 // delete report
 router.post("/deletereport", markerController.deleteMarkerReport);
 
-// delete reported marker
+// delete reported trash marker
 router.post("/deletetrashmarker", markerController.deleteTrashMarker);
 
 // report trash activity
 router.post("/reporttrash", markerController.reportTrashActivity);
-
-// get all reported markers
-router.get("/reportedmarkers", markerController.getAllReportedMarkers);
 
 module.exports = router;

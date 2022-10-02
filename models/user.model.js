@@ -85,7 +85,7 @@ User.registerUser = (userReqData, result) => {
                   [username, email, hash],
                   (err, res) => {
                     if (err) {
-                      console.log("Error while inserting data");
+                      console.log("Error podczas dodawania danych");
                       result(null, err);
                     } else {
                       result(null, res);
@@ -107,6 +107,20 @@ User.registerUser = (userReqData, result) => {
       }
     );
   });
+};
+
+// get users scoreboard
+User.scoreboard = (result) => {
+  dbConn.query(
+    "SELECT * FROM users ORDER BY score DESC LIMIT 15",
+    (err, res) => {
+      if (err) {
+        result(null, err);
+      } else {
+        result(null, res);
+      }
+    }
+  );
 };
 
 module.exports = User;

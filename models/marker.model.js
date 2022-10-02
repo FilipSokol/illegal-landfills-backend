@@ -51,11 +51,11 @@ Marker.createMarker = (markerReqData, result) => {
   const created = new Date();
 
   dbConn.query(
-    "INSERT INTO markers (userid, imageurl, latitude, longitude, description, created, status, spam) VALUES (?, ?, ?, ?, ?, ?, 'activated', 'false')",
+    "INSERT INTO markers (userid, imageurl, latitude, longitude, description, created, spam) VALUES (?, ?, ?, ?, ?, ?, 'false')",
     [userid, imageurl, latitude, longitude, description, created],
     (err, res) => {
       if (err) {
-        console.log("Error while inserting data");
+        console.log("Błąd podczas dodawania danych");
         result(null, err);
       } else {
         result(null, res);
@@ -114,13 +114,16 @@ Marker.deleteMarkerReport = (markerReqData, result) => {
 
 // get all reported markers
 Marker.getAllReportedMarkers = (result) => {
-  dbConn.query("SELECT * FROM markers WHERE spam = 'true'", (err, res) => {
-    if (err) {
-      result(null, err);
-    } else {
-      result(null, res);
+  dbConn.query(
+    "SELECT m.*, u.username FROM markers m JOIN users u ON m.userid = u.userid WHERE spam = 'true'",
+    (err, res) => {
+      if (err) {
+        result(null, err);
+      } else {
+        result(null, res);
+      }
     }
-  });
+  );
 };
 
 // report trash activity
@@ -144,12 +147,12 @@ Marker.reportTrashActivity = (markerReqData, result) => {
 // delete trash activity
 Marker.deleteTrashMarker = (markerReqData, result) => {
   const markerid = markerReqData.markerid;
-  const deleted = new Date();
-  deleted.setDate(deleted.getDate() + 3);
+  const deleteDate = new Date();
+  deleteDate.setDate(deleteDate.getDate() + 3);
 
   dbConn.query(
     "UPDATE markers SET deleted = ? WHERE markerid = ?",
-    [deleted, markerid],
+    [deleteDate, markerid],
     (err, res) => {
       if (err) {
         result(null, err);

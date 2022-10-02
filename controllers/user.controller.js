@@ -4,7 +4,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 process.env.TOKEN_SECRET;
 
-// get all user list
+// get all users
 exports.getAllUsers = (req, res) => {
   UserModel.getAllUsers((error, users) => {
     try {
@@ -42,7 +42,6 @@ exports.loginUser = (req, res) => {
 // register user
 exports.registerUser = (req, res) => {
   const userReqData = new UserModel(req.body);
-  console.log(req.body);
   UserModel.registerUser(userReqData, (error, message) => {
     try {
       res.send(message);
@@ -52,10 +51,13 @@ exports.registerUser = (req, res) => {
   });
 };
 
-// logout User
-exports.logoutUser = (req, res) => {
-  const refreshToken = req.header("x-auth-token");
-
-  refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
-  res.sendStatus(204);
+// get users scoreboard
+exports.scoreboard = (req, res) => {
+  UserModel.scoreboard((error, users) => {
+    try {
+      res.send(users);
+    } catch (err) {
+      res.send(err);
+    }
+  });
 };

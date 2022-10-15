@@ -28,6 +28,9 @@ router.post("/usermarkers", markerController.getAllUserMarkers);
 // create marker
 router.post("/createmarker", markerController.createMarker);
 
+// edit marker description
+router.post("/editdescription", markerController.editMarkerDescription);
+
 // delete marker
 router.post("/deletemarker", markerController.deleteMarker);
 

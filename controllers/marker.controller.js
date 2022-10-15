@@ -35,6 +35,18 @@ exports.getAllUserMarkers = (req, res) => {
   });
 };
 
+// edit marker description
+exports.editMarkerDescription = (req, res) => {
+  const markerReqData = new MarkerModel(req.body);
+  MarkerModel.editMarkerDescription(markerReqData, (error, data) => {
+    try {
+      res.send(data);
+    } catch (err) {
+      res.send(err);
+    }
+  });
+};
+
 // delete marker
 exports.deleteMarker = (req, res) => {
   const markerReqData = new MarkerModel(req.body);
@@ -95,7 +107,7 @@ exports.deleteTrashMarker = (req, res) => {
   });
 };
 
-// get all markers
+// get all reported markers
 exports.getAllReportedMarkers = (req, res) => {
   MarkerModel.getAllReportedMarkers((error, data) => {
     try {

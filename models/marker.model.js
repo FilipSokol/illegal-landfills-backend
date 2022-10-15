@@ -48,14 +48,33 @@ Marker.createMarker = (markerReqData, result) => {
   const latitude = markerReqData.latitude;
   const longitude = markerReqData.longitude;
   const description = markerReqData.description;
+  const type = markerReqData.description;
   const created = new Date();
 
   dbConn.query(
-    "INSERT INTO markers (userid, imageurl, latitude, longitude, description, created, spam) VALUES (?, ?, ?, ?, ?, ?, 'false')",
-    [userid, imageurl, latitude, longitude, description, created],
+    "INSERT INTO markers (userid, imageurl, latitude, longitude, description, type, created) VALUES (?, ?, ?, ?, ?, ?, ?)",
+    [userid, imageurl, latitude, longitude, description, type, created],
     (err, res) => {
       if (err) {
         console.log("Błąd podczas dodawania danych");
+        result(null, err);
+      } else {
+        result(null, res);
+      }
+    }
+  );
+};
+
+// edit marker description
+Marker.editMarkerDescription = (markerReqData, result) => {
+  const markerid = markerReqData.markerid;
+  const description = markerReqData.description;
+
+  dbConn.query(
+    "UPDATE markers SET description = ? WHERE markerid = ?",
+    [description, markerid],
+    (err, res) => {
+      if (err) {
         result(null, err);
       } else {
         result(null, res);

@@ -48,7 +48,7 @@ Marker.createMarker = (markerReqData, result) => {
   const latitude = markerReqData.latitude;
   const longitude = markerReqData.longitude;
   const description = markerReqData.description;
-  const type = markerReqData.description;
+  const type = markerReqData.type;
   const created = new Date();
 
   dbConn.query(
@@ -59,6 +59,7 @@ Marker.createMarker = (markerReqData, result) => {
         console.log("Błąd podczas dodawania danych");
         result(null, err);
       } else {
+        console.log(res);
         result(null, res);
       }
     }

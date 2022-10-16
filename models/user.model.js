@@ -9,6 +9,7 @@ const User = function (user) {
   this.email = user.email;
   this.password = user.password;
   this.role = user.role;
+  this.score = user.score;
 };
 
 // get all users
@@ -107,6 +108,25 @@ User.registerUser = (userReqData, result) => {
       }
     );
   });
+};
+
+// add points to user
+User.addPoints = (userReqData, result) => {
+  const score = userReqData.score;
+  const userid = userReqData.userid;
+
+  console.log(userReqData);
+  dbConn.query(
+    "UPDATE users SET score = score + ? WHERE userid = ?",
+    [score, userid],
+    (err, res) => {
+      if (err) {
+        result(null, err);
+      } else {
+        result(null, res);
+      }
+    }
+  );
 };
 
 // get users scoreboard

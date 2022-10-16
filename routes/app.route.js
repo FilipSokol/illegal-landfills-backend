@@ -16,6 +16,9 @@ router.post("/login", userController.loginUser);
 // register user
 router.post("/register", userController.registerUser);
 
+// add points
+router.post("/addpoints", userController.addPoints);
+
 // get users scoreboard
 router.get("/scoreboard", userController.scoreboard);
 

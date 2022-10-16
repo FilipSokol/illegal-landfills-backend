@@ -51,6 +51,18 @@ exports.registerUser = (req, res) => {
   });
 };
 
+// add points to user
+exports.addPoints = (req, res) => {
+  const userReqData = new UserModel(req.body);
+  UserModel.addPoints(userReqData, (error, message) => {
+    try {
+      res.send(message);
+    } catch (err) {
+      res.send(err);
+    }
+  });
+};
+
 // get users scoreboard
 exports.scoreboard = (req, res) => {
   UserModel.scoreboard((error, users) => {

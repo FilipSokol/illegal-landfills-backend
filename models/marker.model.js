@@ -101,20 +101,21 @@ Marker.deleteMarker = (markerReqData, result) => {
 };
 
 // report marker
-Marker.reportMarker = (markerReqData, result) => {
-  const markerid = markerReqData.markerid;
-  dbConn.query(
-    "UPDATE markers SET spam = 'true' WHERE markerid = ?",
-    [markerid],
-    (err, res) => {
-      if (err) {
-        result(null, err);
-      } else {
-        result(null, res);
-      }
-    }
-  );
-};
+
+// Marker.reportMarker = (markerReqData, result) => {
+//   const markerid = markerReqData.markerid;
+//   dbConn.query(
+//     "UPDATE markers SET spam = 'true' WHERE markerid = ?",
+//     [markerid],
+//     (err, res) => {
+//       if (err) {
+//         result(null, err);
+//       } else {
+//         result(null, res);
+//       }
+//     }
+//   );
+// };
 
 // delete marker report
 Marker.deleteMarkerReport = (markerReqData, result) => {

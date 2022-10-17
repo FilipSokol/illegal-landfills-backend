@@ -3,6 +3,7 @@ const router = express.Router();
 
 const userController = require("../controllers/user.controller");
 const markerController = require("../controllers/marker.controller");
+const reportController = require("../controllers/report.controller");
 
 // get all users
 router.get("/users", userController.getAllUsers);
@@ -37,19 +38,28 @@ router.post("/editdescription", markerController.editMarkerDescription);
 // delete marker
 router.post("/deletemarker", markerController.deleteMarker);
 
-// report marker
-router.post("/reportmarker", markerController.reportMarker);
+// ! report marker
+// router.post("/reportmarker", markerController.reportMarker);
 
-// get all reported markers
-router.get("/reportedmarkers", markerController.getAllReportedMarkers);
+// ! get all reported markers
+// router.get("/reportedmarkers", markerController.getAllReportedMarkers);
 
-// delete report
-router.post("/deletereport", markerController.deleteMarkerReport);
+// ! delete report
+// router.post("/deletereport", markerController.deleteMarkerReport);
 
 // delete reported trash marker
 router.post("/deletetrashmarker", markerController.deleteTrashMarker);
 
 // report trash activity
 router.post("/reporttrash", markerController.reportTrashActivity);
+
+// create report
+router.post("/report", reportController.createReport);
+
+// delete report
+router.post("/deletereport", reportController.deleteReport);
+
+// get all reported markers
+router.get("/reports", reportController.getAllReports);
 
 module.exports = router;

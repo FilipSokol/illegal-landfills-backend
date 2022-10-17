@@ -14,10 +14,6 @@ app.use(cors(corOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/", (req, res) => {
-  res.send("Hello World");
-});
-
 const appRoutes = require("./routes/app.route");
 
 app.use("/api/", appRoutes);

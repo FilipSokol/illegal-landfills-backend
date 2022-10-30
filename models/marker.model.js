@@ -1,3 +1,4 @@
+const fs = require("fs");
 const dbConn = require("../config/dbConfig");
 
 const Marker = function (marker) {
@@ -118,34 +119,34 @@ Marker.deleteMarker = (markerReqData, result) => {
 // };
 
 // delete marker report
-Marker.deleteMarkerReport = (markerReqData, result) => {
-  const markerid = markerReqData.markerid;
-  dbConn.query(
-    "UPDATE markers SET spam = 'false' WHERE markerid = ?",
-    [markerid],
-    (err, res) => {
-      if (err) {
-        result(null, err);
-      } else {
-        result(null, res);
-      }
-    }
-  );
-};
+// Marker.deleteMarkerReport = (markerReqData, result) => {
+//   const markerid = markerReqData.markerid;
+//   dbConn.query(
+//     "UPDATE markers SET spam = 'false' WHERE markerid = ?",
+//     [markerid],
+//     (err, res) => {
+//       if (err) {
+//         result(null, err);
+//       } else {
+//         result(null, res);
+//       }
+//     }
+//   );
+// };
 
 // get all reported markers
-Marker.getAllReportedMarkers = (result) => {
-  dbConn.query(
-    "SELECT m.*, u.username FROM markers m JOIN users u ON m.userid = u.userid WHERE spam = 'true'",
-    (err, res) => {
-      if (err) {
-        result(null, err);
-      } else {
-        result(null, res);
-      }
-    }
-  );
-};
+// Marker.getAllReportedMarkers = (result) => {
+//   dbConn.query(
+//     "SELECT m.*, u.username FROM markers m JOIN users u ON m.userid = u.userid WHERE spam = 'true'",
+//     (err, res) => {
+//       if (err) {
+//         result(null, err);
+//       } else {
+//         result(null, res);
+//       }
+//     }
+//   );
+// };
 
 // report trash activity
 Marker.reportTrashActivity = (markerReqData, result) => {
@@ -182,6 +183,20 @@ Marker.deleteTrashMarker = (markerReqData, result) => {
       }
     }
   );
+};
+
+// delete marker image
+Marker.deleteMarkerImage = (markerReqData, result) => {
+  const imageurl = markerReqData.imageurl;
+  const directoryPath = process.cwd() + "/images/";
+
+  fs.unlink(directoryPath + imageurl, (err) => {
+    if (err) {
+      result(null, err);
+    } else {
+      result(null, { message: "Zdjęcie zostało usunięte" });
+    }
+  });
 };
 
 module.exports = Marker;

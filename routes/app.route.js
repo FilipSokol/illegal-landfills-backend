@@ -63,6 +63,9 @@ router.post("/deletereport", reportController.deleteReport);
 router.get("/reports", reportController.getAllReports);
 
 // delete marker image
-router.delete("/images", markerController.deleteMarkerImage);
+router.post("/images", markerController.uploadMarkerImage);
+
+// delete marker image
+router.post("/deleteimage", markerController.deleteMarkerImage);
 
 module.exports = router;

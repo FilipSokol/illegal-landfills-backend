@@ -1,5 +1,4 @@
 const MarkerModel = require("../models/marker.model");
-const multer = require("multer");
 
 // create marker
 exports.createMarker = (req, res) => {
@@ -111,6 +110,18 @@ exports.deleteTrashMarker = (req, res) => {
 // get all reported markers
 exports.getAllReportedMarkers = (req, res) => {
   MarkerModel.getAllReportedMarkers((error, data) => {
+    try {
+      res.send(data);
+    } catch (err) {
+      res.send(err);
+    }
+  });
+};
+
+// upload marker image
+exports.uploadMarkerImage = (req, res) => {
+  const markerReqData = new MarkerModel(req.body);
+  MarkerModel.uploadMarkerImage(markerReqData, (error, data) => {
     try {
       res.send(data);
     } catch (err) {

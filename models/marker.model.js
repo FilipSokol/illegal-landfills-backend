@@ -1,9 +1,11 @@
 const fs = require("fs");
+const path = require("path");
 const dbConn = require("../config/dbConfig");
 
 const Marker = function (marker) {
   this.markerid = marker.markerid;
   this.userid = marker.userid;
+  this.image = marker.image;
   this.imageurl = marker.imageurl;
   this.latitude = marker.latitude;
   this.longitude = marker.longitude;
@@ -12,6 +14,7 @@ const Marker = function (marker) {
   this.spam = marker.spam;
   this.created = marker.created;
   this.updated = marker.updated;
+  this.type = marker.type;
 };
 
 // get all markers
@@ -185,12 +188,26 @@ Marker.deleteTrashMarker = (markerReqData, result) => {
   );
 };
 
+// upload marker image
+Marker.uploadMarkerImage = (markerReqData, result) => {
+  const fileName = `${Date.now() + markerReqData.userid.toString()}.jpeg`;
+  const filePath = path.join(__dirname, `../images/${fileName}`);
+  const buffer = Buffer.from(markerReqData.image.split(",")[1], "base64");
+
+  try {
+    fs.writeFileSync(filePath, buffer);
+    result(null, { imageurl: fileName });
+  } catch (err) {
+    result(null, err);
+  }
+};
+
 // delete marker image
 Marker.deleteMarkerImage = (markerReqData, result) => {
   const imageurl = markerReqData.imageurl;
-  const directoryPath = process.cwd() + "/images/";
+  const folderPath = path.join(__dirname, "../images/");
 
-  fs.unlink(directoryPath + imageurl, (err) => {
+  fs.unlink(folderPath + imageurl, (err) => {
     if (err) {
       result(null, err);
     } else {

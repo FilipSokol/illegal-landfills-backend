@@ -115,7 +115,6 @@ User.addPoints = (userReqData, result) => {
   const score = userReqData.score;
   const userid = userReqData.userid;
 
-  console.log(userReqData);
   dbConn.query(
     "UPDATE users SET score = score + ? WHERE userid = ?",
     [score, userid],

@@ -38,15 +38,6 @@ router.post("/editdescription", markerController.editMarkerDescription);
 // delete marker
 router.post("/deletemarker", markerController.deleteMarker);
 
-// ! report marker
-// router.post("/reportmarker", markerController.reportMarker);
-
-// ! get all reported markers
-// router.get("/reportedmarkers", markerController.getAllReportedMarkers);
-
-// ! delete report
-// router.post("/deletereport", markerController.deleteMarkerReport);
-
 // delete reported trash marker
 router.post("/deletetrashmarker", markerController.deleteTrashMarker);
 

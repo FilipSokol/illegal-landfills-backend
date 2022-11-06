@@ -15,7 +15,6 @@ Report.createReport = (reportReqData, result) => {
   const reportedbyid = reportReqData.reportedbyid;
   const reason = reportReqData.reason;
 
-  //! ogarnac tego elsa
   dbConn.query(
     "SELECT markerid FROM reports WHERE markerid = '" + markerid + "'",
     (err, res) => {
@@ -27,14 +26,13 @@ Report.createReport = (reportReqData, result) => {
             if (err) {
               result(null, err);
             } else {
-              console.log(res);
               result(null, res);
             }
           }
         );
       } else {
         result(null, {
-          message: "Postał został już przez kogoś zgłoszony.",
+          message: "Post został już przez kogoś zgłoszony.",
         });
       }
     }

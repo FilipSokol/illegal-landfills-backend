@@ -13,9 +13,6 @@ dbConn.connect(function (error) {
   console.log("Polaczono z baza danych");
 });
 
-//“At 00:00.” at 2022-10-03 00:00:00
-// cron.schedule("0 0 * * *", () => {
-
 cron.schedule("0 0 * * *", () => {
   const currentDate = new Date();
   dbConn.query(

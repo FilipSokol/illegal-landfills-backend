@@ -11,11 +11,9 @@ const corOptions = {
 
 app.use(cors(corOptions));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "10mb", extended: true }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
-//! Function to serve all static files
-//! inside public directory.
 app.use(express.static("public"));
 app.use("/images", express.static("images"));
 
@@ -25,5 +23,5 @@ app.use("/api/", appRoutes);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`Serwer wystartowal na portcie ${PORT}`);
+  console.log(`Serwer wystartowal na porcie ${PORT}`);
 });

@@ -104,53 +104,6 @@ Marker.deleteMarker = (markerReqData, result) => {
   );
 };
 
-// report marker
-
-// Marker.reportMarker = (markerReqData, result) => {
-//   const markerid = markerReqData.markerid;
-//   dbConn.query(
-//     "UPDATE markers SET spam = 'true' WHERE markerid = ?",
-//     [markerid],
-//     (err, res) => {
-//       if (err) {
-//         result(null, err);
-//       } else {
-//         result(null, res);
-//       }
-//     }
-//   );
-// };
-
-// delete marker report
-// Marker.deleteMarkerReport = (markerReqData, result) => {
-//   const markerid = markerReqData.markerid;
-//   dbConn.query(
-//     "UPDATE markers SET spam = 'false' WHERE markerid = ?",
-//     [markerid],
-//     (err, res) => {
-//       if (err) {
-//         result(null, err);
-//       } else {
-//         result(null, res);
-//       }
-//     }
-//   );
-// };
-
-// get all reported markers
-// Marker.getAllReportedMarkers = (result) => {
-//   dbConn.query(
-//     "SELECT m.*, u.username FROM markers m JOIN users u ON m.userid = u.userid WHERE spam = 'true'",
-//     (err, res) => {
-//       if (err) {
-//         result(null, err);
-//       } else {
-//         result(null, res);
-//       }
-//     }
-//   );
-// };
-
 // report trash activity
 Marker.reportTrashActivity = (markerReqData, result) => {
   const markerid = markerReqData.markerid;

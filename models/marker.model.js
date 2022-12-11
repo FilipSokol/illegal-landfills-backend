@@ -11,7 +11,6 @@ const Marker = function (marker) {
   this.longitude = marker.longitude;
   this.description = marker.description;
   this.status = marker.status;
-  this.spam = marker.spam;
   this.created = marker.created;
   this.updated = marker.updated;
   this.type = marker.type;
@@ -60,6 +59,7 @@ Marker.createMarker = (markerReqData, result) => {
     [userid, imageurl, latitude, longitude, description, type, created],
     (err, res) => {
       if (err) {
+        console.log(err);
         console.log("Błąd podczas dodawania danych");
         result(null, err);
       } else {

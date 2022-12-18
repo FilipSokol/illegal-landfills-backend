@@ -32,7 +32,7 @@ Report.createReport = (reportReqData, result) => {
         );
       } else {
         result(null, {
-          message: "Post został już przez kogoś zgłoszony.",
+          message: "Znacznik został już przez kogoś zgłoszony.",
         });
       }
     }

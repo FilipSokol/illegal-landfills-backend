@@ -22,7 +22,7 @@ cron.schedule("0 0 * * *", () => {
       if (err) {
         console.log(err);
       } else {
-        console.log("Dokonano usunięcia zgłoszonych postów");
+        console.log("Dokonano usunięcia zgłoszonych znaczników");
       }
     }
   );

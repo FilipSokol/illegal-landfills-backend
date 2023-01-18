@@ -29,7 +29,6 @@ CREATE TABLE `markers` (
   `latitude` double NOT NULL,
   `longitude` double NOT NULL,
   `description` varchar(180) DEFAULT NULL,
-  `spam` char(5) NOT NULL DEFAULT 'false',
   `type` char(3) DEFAULT NULL,
   `created` datetime NOT NULL,
   `updated` datetime DEFAULT NULL,
